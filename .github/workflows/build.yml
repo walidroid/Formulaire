@@ -52,3 +52,11 @@ jobs:
           releaseBody: "Auto-generated release"
           releaseDraft: true
           prerelease: false
+
+      - name: Upload Windows Installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: formbuilder-windows-installer
+          path: |
+            src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis/*.exe
+            src-tauri/target/x86_64-pc-windows-msvc/release/bundle/msi/*.msi
