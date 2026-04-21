@@ -19,20 +19,16 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install frontend dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Build and Release Tauri App
-        uses: tauri-apps/tauri-action@v0
+      - name: Build Electron App
+        run: npm run build
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
         with:
-          tagName: ${{ github.ref_name }}
-          releaseName: "Formulaire ${{ github.ref_name }}"
-          releaseBody: "Automated release of Formulaire."
-          releaseDraft: true
-          prerelease: false
-          args: --target x86_64-pc-windows-msvc
+          draft: true
+          files: "dist/*.exe"

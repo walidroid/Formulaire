@@ -2,10 +2,10 @@
   "name": "formulaire",
   "version": "1.0.0",
   "description": "google forms simulator",
-  "main": "script.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "tauri": "tauri"
+    "start": "electron .",
+    "build": "electron-builder --win --x64"
   },
   "repository": {
     "type": "git",
@@ -14,12 +14,20 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/walidroid/Formulaire/issues"
+  "build": {
+    "appId": "com.formulaire.app",
+    "productName": "Formulaire",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
   },
-  "homepage": "https://github.com/walidroid/Formulaire#readme",
   "devDependencies": {
-    "@tauri-apps/cli": "^2.10.1"
+    "electron": "^41.2.2",
+    "electron-builder": "^26.8.1"
   }
 }
