@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormBuilder - Complet & Offline</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="logo-box">F</div>
+            <input type="text" id="form-title-input" value="Formulaire sans titre" placeholder="Titre du formulaire">
+        </div>
+        <div class="header-right">
+            <button id="new-form-btn" class="btn-secondary">Nouveau</button>
+            <button id="open-file-btn" class="btn-secondary">Ouvrir</button>
+            <button id="save-file-btn" class="btn-primary">Sauvegarder</button>
+            <button id="preview-btn" class="btn-icon" title="Aperçu">👁</button>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab-btn active" data-tab="editor">Questions</button>
+        <button class="tab-btn" data-tab="responses">Réponses</button>
+    </nav>
+
+    <main id="app-container">
+        <section id="editor-view" class="tab-content active">
+            <div class="form-container">
+                <div class="form-header-card">
+                    <input type="text" id="form-display-title" class="title-input" placeholder="Titre du formulaire" value="Formulaire sans titre">
+                    <textarea id="form-description" class="description-input" placeholder="Description du formulaire"></textarea>
+                </div>
+
+                <div id="questions-list" class="questions-container"></div>
+
+                <div class="floating-actions">
+                    <button id="add-question-btn" class="action-btn" title="Ajouter une question">+</button>
+                    <button id="add-section-btn" class="action-btn" title="Ajouter une section">〓</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="responses-view" class="tab-content">
+            <div class="responses-container">
+                <div class="responses-card">
+                    <h2 id="response-count">0 réponses</h2>
+                    <button id="export-csv-btn" class="btn-secondary">Exporter CSV</button>
+                </div>
+                <div class="table-wrapper">
+                    <table id="responses-table">
+                        <thead><tr id="table-header"></tr></thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="preview-view" class="preview-overlay hidden">
+            <div class="preview-content">
+                <div class="preview-nav">
+                    <button id="close-preview" class="btn-secondary">Retour à l'édition</button>
+                </div>
+                <div id="preview-form-container" class="form-container"></div>
+            </div>
+        </section>
+    </main>
+
+    <input type="file" id="file-input" accept=".json" style="display:none">
+
+    <!-- Templates -->
+    <template id="section-template">
+        <div class="section-card">
+            <div class="section-header">
+                <span class="section-label">SECTION <span class="section-num-display"></span></span>
+                <button class="delete-btn">×</button>
+            </div>
+            <div class="section-body">
+                <input type="text" class="section-title" placeholder="Titre de la section">
+                <input type="text" class="section-desc" placeholder="Description (facultatif)">
+            </div>
+            <div class="section-footer-logic">
+                Après cette section : 
+                <select class="after-section-select">
+                    <option value="next">Passer à la section suivante</option>
+                    <option value="submit">Envoyer le formulaire</option>
+                </select>
+            </div>
+        </div>
+    </template>
+
+    <template id="question-template">
+        <div class="question-card">
+            <div class="question-top">
+                <input type="text" class="question-title" placeholder="Question">
+                <select class="question-type">
+                    <option value="short">Réponse courte</option>
+                    <option value="paragraph">Paragraphe</option>
+                    <option value="multiple">Choix multiple</option>
+                    <option value="checkbox">Cases à cocher</option>
+                    <option value="dropdown">Liste déroulante</option>
+                    <option value="linear">Échelle linéaire</option>
+                    <option value="grid">Grille à choix multiple</option>
+                    <option value="grid-check">Grille de cases à cocher</option>
+                    <option value="date">Date</option>
+                    <option value="time">Heure</option>
+                </select>
+            </div>
+            <div class="options-list"></div>
+            <div class="question-footer">
+                <div class="footer-left">
+                    <label class="logic-toggle-label">
+                        <input type="checkbox" class="logic-toggle"> Accéder à la section par réponse
+                    </label>
+                </div>
+                <div class="footer-right">
+                    <label class="required-label">
+                        <input type="checkbox" class="required-toggle"> Obligatoire
+                    </label>
+                    <button class="delete-btn">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="script.js"></script>
+</body>
+</html>
