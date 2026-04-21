@@ -1,4 +1,4 @@
-name: Build Rust WASM App
+name: Build Tauri App
 
 on:
   push:
@@ -8,12 +8,17 @@ on:
 
 jobs:
   build:
-    name: Build Yew WebApp
-    runs-on: ubuntu-latest
+    name: Build Windows EXE
+    runs-on: windows-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       - name: Setup Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -28,11 +33,20 @@ jobs:
         with:
           version: 'latest'
 
+      - name: Install NPM dependencies
+        run: npm install
+
       - name: Build WebAssembly project
         run: trunk build --release
 
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
+      - name: Build Tauri Desktop App
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: formbuilder-dist
-          path: dist/
+          args: --target x86_64-pc-windows-msvc
+          tagName: v__VERSION__
+          releaseName: "FormBuilder v__VERSION__"
+          releaseBody: "Auto-generated release"
+          releaseDraft: true
+          prerelease: false

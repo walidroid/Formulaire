@@ -2,22 +2,9 @@
   "name": "formulaire",
   "version": "1.0.0",
   "description": "google forms simulator",
-  "main": "script.js",
   "scripts": {
     "tauri": "tauri"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/walidroid/Formulaire.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/walidroid/Formulaire/issues"
-  },
-  "homepage": "https://github.com/walidroid/Formulaire#readme",
   "devDependencies": {
     "@tauri-apps/cli": "^2.10.1"
   }
