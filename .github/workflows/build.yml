@@ -1,0 +1,38 @@
+name: Build Rust WASM App
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    name: Build Yew WebApp
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache Rust Dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install Trunk (WASM Bundler)
+        uses: jetli/trunk-action@v0.5.0
+        with:
+          version: 'latest'
+
+      - name: Build WebAssembly project
+        run: trunk build --release
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: formbuilder-dist
+          path: dist/
