@@ -12,9 +12,9 @@ jobs:
     runs-on: windows-latest
     permissions:
       contents: write
-      id-token: write  # Required by SignPath
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      
 
     steps:
       - name: Checkout repository
@@ -58,35 +58,6 @@ jobs:
           releaseDraft: true
           prerelease: false
 
-      # ── Stage 1: Upload the UNSIGNED portable EXE as a temp artifact ──────
-      - name: Upload unsigned portable EXE for signing
-        id: upload-unsigned
-        uses: actions/upload-artifact@v4
-        with:
-          name: formbuilder-unsigned
-          path: src-tauri/target/i686-pc-windows-msvc/release/formulaire.exe
-
-      # ── Stage 2: Submit to SignPath for free OSS code signing ─────────────
-      - name: Sign EXE with SignPath
-        uses: signpath/github-action-submit-signing-request@v1
-        with:
-          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
-          organization-id: ${{ secrets.SIGNPATH_ORGANIZATION_ID }}
-          project-slug: formulaire
-          signing-policy-slug: release-signing
-          artifact-configuration-slug: formulaire-portable
-          github-artifact-id: ${{ steps.upload-unsigned.outputs.artifact-id }}
-          wait-for-completion: true
-          output-artifact-directory: signed-output
-
-      # ── Stage 3: Upload the SIGNED portable EXE ──────────────────────────
-      - name: Upload signed portable EXE
-        uses: actions/upload-artifact@v4
-        with:
-          name: formbuilder-portable-SIGNED
-          path: signed-output/formulaire.exe
-
-      # ── Also upload the NSIS/MSI installers (unsigned, optional) ─────────
       - name: Upload Windows Installer
         uses: actions/upload-artifact@v4
         with:
@@ -94,3 +65,9 @@ jobs:
           path: |
             src-tauri/target/i686-pc-windows-msvc/release/bundle/nsis/*.exe
             src-tauri/target/i686-pc-windows-msvc/release/bundle/msi/*.msi
+
+      - name: Upload Portable EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: formbuilder-portable
+          path: src-tauri/target/i686-pc-windows-msvc/release/formulaire.exe
