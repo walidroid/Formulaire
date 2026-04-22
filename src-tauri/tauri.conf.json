@@ -1,6 +1,6 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "formulaire",
+  "productName": "Formulaire",
   "version": "0.1.0",
   "identifier": "com.walidroid.formbuilder",
   "build": {
@@ -15,7 +15,8 @@
         "width": 800,
         "height": 600,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "maximized": true
       }
     ],
     "security": {
@@ -25,6 +26,9 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "publisher": "walid jadla",
+    "copyright": "free",
+    "shortDescription": "google forms simulator",
     "icon": [
       "icons/icon.ico"
     ]
