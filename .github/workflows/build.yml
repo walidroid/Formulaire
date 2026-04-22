@@ -52,7 +52,6 @@ jobs:
           releaseBody: "Auto-generated release"
           releaseDraft: true
           prerelease: false
-
       - name: Upload Windows Installer
         uses: actions/upload-artifact@v4
         with:
@@ -60,3 +59,9 @@ jobs:
           path: |
             src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis/*.exe
             src-tauri/target/x86_64-pc-windows-msvc/release/bundle/msi/*.msi
+
+      - name: Upload Portable EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: formbuilder-portable
+          path: src-tauri/target/x86_64-pc-windows-msvc/release/formulaire.exe
